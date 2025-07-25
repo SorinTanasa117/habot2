@@ -50,7 +50,7 @@ class GoalAdapter(
 
         fun bind(goal: Goal) {
             goalName.text = goal.name
-            goalScore.text = "Score: ${goal.score}"
+            goalScore.text = "Monkey dos: ${"🐵".repeat(goal.score)}"
             val apes = goal.score / 20
             if (apes > 0) {
                 happyApeIcon.visibility = View.VISIBLE
