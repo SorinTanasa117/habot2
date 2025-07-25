@@ -76,7 +76,6 @@ function renderApp(db, auth, currentUser) {
             </div>
         </div>
         <div id="goals"></div>
-        <a href="/add-goal.html" class="button">Add Goal</a>
     `;
     const logoutButton = document.getElementById('logoutButton');
     logoutButton.addEventListener('click', () => signOut(auth));
@@ -97,7 +96,6 @@ function renderApp(db, auth, currentUser) {
                 </div>
                 <p>Score: ${goal.score} 🐵</p>
                 <div class="habits" style="display: none;"></div>
-                <a href="/add-habit.html?goalId=${doc.id}" class="button addHabitButton" data-goal-id="${doc.id}">Add Habit</a>
             `;
             goalsContainer.appendChild(goalElement);
 
