@@ -1,16 +1,20 @@
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
+import { getFirestore, collection, doc, addDoc, onSnapshot, orderBy, query, runTransaction, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js';
+
 const app = document.getElementById('app');
 
 fetch('/.netlify/functions/firebase-config')
   .then(response => response.json())
   .then(firebaseConfig => {
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const auth = firebase.auth();
+    const firebaseApp = initializeApp(firebaseConfig);
+    const db = getFirestore(firebaseApp);
+    const auth = getAuth(firebaseApp);
 
     let currentUser = null;
 
-    auth.onAuthStateChanged(user => {
+    onAuthStateChanged(auth, user => {
         if (user) {
             currentUser = user;
             renderApp(db, auth, currentUser);
@@ -26,8 +30,8 @@ function renderLogin(auth) {
     `;
     const loginButton = document.getElementById('loginButton');
     loginButton.addEventListener('click', () => {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithPopup(provider);
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider);
     });
 }
 
@@ -38,22 +42,23 @@ function renderApp(db, auth, currentUser) {
         <button id="addGoalButton">Add Goal</button>
     `;
     const logoutButton = document.getElementById('logoutButton');
-    logoutButton.addEventListener('click', () => auth.signOut());
+    logoutButton.addEventListener('click', () => signOut(auth));
 
     const addGoalButton = document.getElementById('addGoalButton');
     addGoalButton.addEventListener('click', () => {
         const goalName = prompt('Enter goal name:');
         if (goalName) {
-            db.collection('users').doc(currentUser.uid).collection('goals').add({
+            addDoc(collection(db, 'users', currentUser.uid, 'goals'), {
                 name: goalName,
                 score: 1,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                createdAt: serverTimestamp()
             });
         }
     });
 
     const goalsContainer = document.getElementById('goals');
-    db.collection('users').doc(currentUser.uid).collection('goals').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+    const goalsQuery = query(collection(db, 'users', currentUser.uid, 'goals'), orderBy('createdAt', 'desc'));
+    onSnapshot(goalsQuery, snapshot => {
         goalsContainer.innerHTML = '';
         snapshot.forEach(doc => {
             const goal = doc.data();
@@ -68,7 +73,8 @@ function renderApp(db, auth, currentUser) {
             goalsContainer.appendChild(goalElement);
 
             const habitsContainer = goalElement.querySelector('.habits');
-            db.collection('users').doc(currentUser.uid).collection('goals').doc(doc.id).collection('habits').orderBy('createdAt', 'desc').onSnapshot(habitsSnapshot => {
+            const habitsQuery = query(collection(db, 'users', currentUser.uid, 'goals', doc.id, 'habits'), orderBy('createdAt', 'desc'));
+            onSnapshot(habitsQuery, habitsSnapshot => {
                 habitsContainer.innerHTML = '';
                 habitsSnapshot.forEach(habitDoc => {
                     const habit = habitDoc.data();
@@ -86,18 +92,19 @@ function renderApp(db, auth, currentUser) {
     });
 }
 
-document.addEventListener('click', event => {
+document.addEventListener('click', async event => {
+    const db = getFirestore();
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+
     if (event.target.matches('.addHabitButton')) {
         const goalId = event.target.dataset.goalId;
         const habitName = prompt('Enter habit name:');
         if (habitName) {
-            const db = firebase.firestore();
-            const auth = firebase.auth();
-            const currentUser = auth.currentUser;
-            db.collection('users').doc(currentUser.uid).collection('goals').doc(goalId).collection('habits').add({
+            await addDoc(collection(db, 'users', currentUser.uid, 'goals', goalId, 'habits'), {
                 name: habitName,
                 happyMonkeyCount: 1,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                createdAt: serverTimestamp()
             });
         }
     }
@@ -105,16 +112,14 @@ document.addEventListener('click', event => {
     if (event.target.matches('.iDidItButton')) {
         const goalId = event.target.dataset.goalId;
         const habitId = event.target.dataset.habitId;
-        const db = firebase.firestore();
-        const auth = firebase.auth();
-        const currentUser = auth.currentUser;
-        const habitRef = db.collection('users').doc(currentUser.uid).collection('goals').doc(goalId).collection('habits').doc(habitId);
-        db.runTransaction(async transaction => {
+        const habitRef = doc(db, 'users', currentUser.uid, 'goals', goalId, 'habits', habitId);
+
+        await runTransaction(db, async transaction => {
             const habitDoc = await transaction.get(habitRef);
             const newHappyMonkeyCount = (habitDoc.data().happyMonkeyCount || 0) + 1;
             transaction.update(habitRef, { happyMonkeyCount: newHappyMonkeyCount });
 
-            const goalRef = db.collection('users').doc(currentUser.uid).collection('goals').doc(goalId);
+            const goalRef = doc(db, 'users', currentUser.uid, 'goals', goalId);
             const goalDoc = await transaction.get(goalRef);
             const newScore = (goalDoc.data().score || 0) + 1;
             transaction.update(goalRef, { score: newScore });
