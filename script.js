@@ -1,32 +1,26 @@
 const app = document.getElementById('app');
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "your_api_key",
-  authDomain: "habittracker-12345.firebaseapp.com",
-  projectId: "habittracker-12345",
-  storageBucket: "habittracker-12345.appspot.com",
-  messagingSenderId: "1234567890",
-  appId: "1:1234567890:web:1234567890abcdef"
-};
+fetch('/.netlify/functions/firebase-config')
+  .then(response => response.json())
+  .then(firebaseConfig => {
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const auth = firebase.auth();
+    let currentUser = null;
 
-let currentUser = null;
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            currentUser = user;
+            renderApp(db, auth, currentUser);
+        } else {
+            renderLogin(auth);
+        }
+    });
+  });
 
-auth.onAuthStateChanged(user => {
-    if (user) {
-        currentUser = user;
-        renderApp();
-    } else {
-        renderLogin();
-    }
-});
-
-function renderLogin() {
+function renderLogin(auth) {
     app.innerHTML = `
         <button id="loginButton">Login with Google</button>
     `;
@@ -37,7 +31,7 @@ function renderLogin() {
     });
 }
 
-function renderApp() {
+function renderApp(db, auth, currentUser) {
     app.innerHTML = `
         <button id="logoutButton">Logout</button>
         <div id="goals"></div>
@@ -97,6 +91,9 @@ document.addEventListener('click', event => {
         const goalId = event.target.dataset.goalId;
         const habitName = prompt('Enter habit name:');
         if (habitName) {
+            const db = firebase.firestore();
+            const auth = firebase.auth();
+            const currentUser = auth.currentUser;
             db.collection('users').doc(currentUser.uid).collection('goals').doc(goalId).collection('habits').add({
                 name: habitName,
                 happyMonkeyCount: 1,
@@ -108,6 +105,9 @@ document.addEventListener('click', event => {
     if (event.target.matches('.iDidItButton')) {
         const goalId = event.target.dataset.goalId;
         const habitId = event.target.dataset.habitId;
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        const currentUser = auth.currentUser;
         const habitRef = db.collection('users').doc(currentUser.uid).collection('goals').doc(goalId).collection('habits').doc(habitId);
         db.runTransaction(async transaction => {
             const habitDoc = await transaction.get(habitRef);
