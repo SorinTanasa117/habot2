@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Goal - Habit Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Add a New Goal</h1>
+    <form id="addGoalForm">
+        <label for="habitName">Habit Name:</label>
+        <input type="text" id="habitName" required>
+
+        <label for="currentConfidence">Current Confidence:</label>
+        <select id="currentConfidence">
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+        </select>
+
+        <label for="targetLevel">Target Level:</label>
+        <select id="targetLevel">
+            <option>Advanced</option>
+            <option>Expert</option>
+        </select>
+
+        <label for="feelings">Feelings about starting:</label>
+        <select id="feelings">
+            <option>Afraid</option>
+            <option>Apprehensive</option>
+            <option>Neutral</option>
+            <option>Hopeful</option>
+            <option>Excited</option>
+        </select>
+
+        <button type="submit">Save Goal</button>
+    </form>
+
+    <script type="module" src="add-goal.js"></script>
+</body>
+</html>
