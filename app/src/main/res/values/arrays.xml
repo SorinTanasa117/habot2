@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="common_habits">
+        <item>Drink more water</item>
+        <item>Eat more vegetables</item>
+        <item>Exercise regularly</item>
+        <item>Read every day</item>
+        <item>Meditate</item>
+        <item>Wake up early</item>
+        <item>Go to bed early</item>
+        <item>Learn a new language</item>
+        <item>Learn to play an instrument</item>
+        <item>Write a journal</item>
+        <item>Save money</item>
+        <item>Invest money</item>
+        <item>Spend less time on social media</item>
+        <item>Spend more time with family</item>
+        <item>Spend more time with friends</item>
+        <item>Learn to code</item>
+        <item>Learn to cook</item>
+        <item>Learn to dance</item>
+        <item>Learn to sing</item>
+        <item>Learn to draw</item>
+        <item>Learn to paint</item>
+        <item>Learn to write</item>
+        <item>Learn to speak in public</item>
+        <item>Learn to listen</item>
+        <item>Learn to be more patient</item>
+        <item>Learn to be more grateful</item>
+        <item>Learn to be more positive</item>
+        <item>Learn to be more confident</item>
+        <item>Learn to be more assertive</item>
+        <item>Learn to be more organized</item>
+        <item>Learn to be more productive</item>
+        <item>Learn to be more focused</item>
+        <item>Learn to be more creative</item>
+        <item>Learn to be more disciplined</item>
+        <item>Learn to be more motivated</item>
+        <item>Learn to be more resilient</item>
+        <item>Learn to be more empathetic</item>
+        <item>Learn to be more compassionate</item>
+        <item>Learn to be more humble</item>
+        <item>Learn to be more honest</item>
+        <item>Learn to be more courageous</item>
+        <item>Learn to be more adventurous</item>
+        <item>Learn to be more curious</item>
+        <item>Learn to be more open-minded</item>
+        <item>Learn to be more optimistic</item>
+        <item>Learn to be more persistent</item>
+        <item>Learn to be more proactive</item>
+        <item>Learn to be more responsible</item>
+        <item>Learn to be more self-aware</item>
+        <item>Learn to be more self-disciplined</item>
+        <item>Learn to be more self-reliant</item>
+        <item>Learn to be more self-controlled</item>
+        <item>Learn to be more self-motivated</item>
+        <item>Learn to be more self-confident</item>
+        <item>Learn to be more self-loving</item>
+        <item>Learn to be more self-forgiving</item>
+        <item>Learn to be more self-accepting</item>
+        <item>Learn to be more self-respecting</item>
+        <item>Learn to be more self-caring</item>
+        <item>Learn to be more self-improving</item>
+        <item>Learn to be more self-developing</item>
+        <item>Learn to be more self-educating</item>
+        <item>Learn to be more self-evaluating</item>
+        <item>Learn to be more self-reflecting</item>
+        <item>Learn to be more self-monitoring</item>
+        <item>Learn to be more self-regulating</item>
+        <item>Learn to be more self-directing</item>
+        <item>Learn to be more self-managing</item>
+        <item>Learn to be more self-organizing</item>
+        <item>Learn to be more self-planning</item>
+        <item>Learn to be more self-scheduling</item>
+        <item>Learn to be more self-prioritizing</item>
+        <item>Learn to be more self-tasking</item>
+        <item>Learn to be more self-goal-setting</item>
+        <item>Learn to be more self-rewarding</item>
+        <item>Learn to be more self-punishing</item>
+        <item>Learn to be more self-reinforcing</item>
+        <item>Learn to be more self-correcting</item>
+        <item>Learn to be more self-improving</item>
+        <item>Learn to be more self-developing</item>
+        <item>Learn to be more self-educating</item>
+        <item>Learn to be more self-evaluating</item>
+        <item>Learn to be more self-reflecting</item>
+        <item>Learn to be more self-monitoring</item>
+        <item>Learn to be more self-regulating</item>
+        <item>Learn to be more self-directing</item>
+        <item>Learn to be more self-managing</item>
+        <item>Learn to be more self-organizing</item>
+        <item>Learn to be more self-planning</item>
+        <item>Learn to be more self-scheduling</item>
+        <item>Learn to be more self-prioritizing</item>
+        <item>Learn to be more self-tasking</item>
+        <item>Learn to be more self-goal-setting</item>
+        <item>Learn to be more self-rewarding</item>
+        <item>Learn to be more self-punishing</item>
+        <item>Learn to be more self-reinforcing</item>
+        <item>Learn to be more self-correcting</item>
+    </string-array>
+</resources>
