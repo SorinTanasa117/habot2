@@ -35,6 +35,14 @@ class FirestoreRepository {
         }
     }
 
+    suspend fun getGoal(goalId: String): Goal? {
+        return try {
+            firestore.collection("users").document(getCurrentUser()!!.uid).collection("goals").document(goalId).get().await().toObject<Goal>()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     suspend fun saveGoal(goal: Goal) {
         firestore.collection("users").document(getCurrentUser()!!.uid).collection("goals").document(goal.id).set(goal).await()
     }

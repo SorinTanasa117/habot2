@@ -22,19 +22,25 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(binding.toolbar)
+
         binding.goalsRecyclerView.layoutManager = LinearLayoutManager(this)
 
         binding.addGoalButton.setOnClickListener {
             startActivity(Intent(this, AddGoalActivity::class.java))
         }
 
+        binding.profileButton.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
+        }
+
         lifecycleScope.launch {
             val goals = firestoreRepository.getGoals()
-            binding.goalsRecyclerView.adapter = GoalAdapter(goals) { goal ->
+            binding.goalsRecyclerView.adapter = GoalAdapter(goals, { goal ->
                 val intent = Intent(this@MainActivity, GoalDetailActivity::class.java)
                 intent.putExtra("goalId", goal.id)
                 startActivity(intent)
-            }
+            }, lifecycleScope)
         }
     }
 }
