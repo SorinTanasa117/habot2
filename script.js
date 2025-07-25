@@ -68,24 +68,18 @@ function renderLogin(auth) {
 
 function renderApp(db, auth, currentUser) {
     app.innerHTML = `
-        <button id="logoutButton">Logout</button>
+        <div class="header">
+            <h1>Habit Tracker</h1>
+            <div>
+                <a href="/profile.html" class="button">Profile</a>
+                <button id="logoutButton">Logout</button>
+            </div>
+        </div>
         <div id="goals"></div>
-        <button id="addGoalButton">Add Goal</button>
+        <a href="/add-goal.html" class="button">Add Goal</a>
     `;
     const logoutButton = document.getElementById('logoutButton');
     logoutButton.addEventListener('click', () => signOut(auth));
-
-    const addGoalButton = document.getElementById('addGoalButton');
-    addGoalButton.addEventListener('click', () => {
-        const goalName = prompt('Enter goal name:');
-        if (goalName) {
-            addDoc(collection(db, 'users', currentUser.uid, 'goals'), {
-                name: goalName,
-                score: 1,
-                createdAt: serverTimestamp()
-            });
-        }
-    });
 
     const goalsContainer = document.getElementById('goals');
     const goalsQuery = query(collection(db, 'users', currentUser.uid, 'goals'), orderBy('createdAt', 'desc'));
@@ -93,13 +87,17 @@ function renderApp(db, auth, currentUser) {
         goalsContainer.innerHTML = '';
         snapshot.forEach(doc => {
             const goal = doc.data();
+            const happyApes = Math.floor(goal.score / 20);
             const goalElement = document.createElement('div');
             goalElement.className = 'goal';
             goalElement.innerHTML = `
-                <h3>${goal.name}</h3>
-                <p>Score: ${goal.score}</p>
-                <div class="habits"></div>
-                <button class="addHabitButton" data-goal-id="${doc.id}">Add Habit</button>
+                <div class="goal-header">
+                    <h3>${goal.name}</h3>
+                    <p>Happy Apes: ${'🦍'.repeat(happyApes)}</p>
+                </div>
+                <p>Score: ${goal.score} 🐵</p>
+                <div class="habits" style="display: none;"></div>
+                <a href="/add-habit.html?goalId=${doc.id}" class="button addHabitButton" data-goal-id="${doc.id}">Add Habit</a>
             `;
             goalsContainer.appendChild(goalElement);
 
@@ -118,6 +116,11 @@ function renderApp(db, auth, currentUser) {
                     `;
                     habitsContainer.appendChild(habitElement);
                 });
+            });
+
+            goalElement.querySelector('.goal-header').addEventListener('click', () => {
+                const habits = goalElement.querySelector('.habits');
+                habits.style.display = habits.style.display === 'none' ? 'block' : 'none';
             });
         });
     });
