@@ -46,7 +46,7 @@ class GoalDetailActivity : AppCompatActivity() {
                 lifecycleScope.launch {
                     firestoreRepository.saveHabit(habit)
                     val updatedHabits = firestoreRepository.getHabits(goalId)
-                    (binding.habitsRecyclerView.adapter as HabitAdapter).notifyDataSetChanged()
+                    (binding.habitsRecyclerView.adapter as HabitAdapter).updateData(updatedHabits)
                     val remaining = habit.targetCount - habit.happyMonkeyCount
                     if (remaining > 0) {
                         Toast.makeText(this@GoalDetailActivity, "Alright! Great job! You're just $remaining away from nailing this habit.", Toast.LENGTH_SHORT).show()
