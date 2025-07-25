@@ -42,13 +42,14 @@ fetch('/.netlify/functions/firebase-config')
             const habitRef = doc(db, 'users', currentUser.uid, 'goals', goalId, 'habits', habitId);
 
             await runTransaction(db, async transaction => {
-                const habitDoc = await transaction.get(habitRef);
-                const newHappyMonkeyCount = (habitDoc.data().happyMonkeyCount || 0) + 1;
-                transaction.update(habitRef, { happyMonkeyCount: newHappyMonkeyCount });
-
                 const goalRef = doc(db, 'users', currentUser.uid, 'goals', goalId);
+                const habitDoc = await transaction.get(habitRef);
                 const goalDoc = await transaction.get(goalRef);
+
+                const newHappyMonkeyCount = (habitDoc.data().happyMonkeyCount || 0) + 1;
                 const newScore = (goalDoc.data().score || 0) + 1;
+
+                transaction.update(habitRef, { happyMonkeyCount: newHappyMonkeyCount });
                 transaction.update(goalRef, { score: newScore });
             });
         }
