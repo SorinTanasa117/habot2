@@ -58,18 +58,25 @@ h1 {
 
 .goal {
     background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
+    border: 1px solid #ddd;
     border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.goal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .habit {
     background-color: #f9f9f9;
     border: 1px solid #eee;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 8px;
+    border-radius: 6px;
+    padding: 15px;
+    margin-top: 15px;
 }
 
 button {
