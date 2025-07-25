@@ -2,7 +2,10 @@ package com.example.habittracker
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.habittracker.data.Habit
 import com.example.habittracker.databinding.ActivityAddHabitBinding
@@ -33,6 +36,24 @@ class AddHabitActivity : AppCompatActivity() {
         binding.feelings.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, feelings)
         binding.habitName.setAdapter(ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, commonHabits))
 
+        binding.habitName.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (commonHabits.contains(s.toString())) {
+                    binding.addCustomHabitButton.visibility = GONE
+                } else {
+                    binding.addCustomHabitButton.visibility = VISIBLE
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        binding.addCustomHabitButton.setOnClickListener {
+            Toast.makeText(this, "Custom habit added!", Toast.LENGTH_SHORT).show()
+        }
+
         binding.saveHabitButton.setOnClickListener {
             val habit = Habit(
                 id = UUID.randomUUID().toString(),
@@ -46,6 +67,11 @@ class AddHabitActivity : AppCompatActivity() {
             )
             lifecycleScope.launch {
                 firestoreRepository.saveHabit(habit)
+                val goal = firestoreRepository.getGoal(goalId)
+                if (goal != null) {
+                    goal.score++
+                    firestoreRepository.saveGoal(goal)
+                }
                 finish()
             }
         }
