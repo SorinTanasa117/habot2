@@ -95,7 +95,7 @@ function renderApp(db, auth, currentUser) {
                     <h3>${goal.name}</h3>
                     <p>Happy Apes: ${'🦍'.repeat(happyApes)}</p>
                 </div>
-                <p>Score: ${goal.score} 🐵</p>
+                <p>Monkey dos: ${'🐵'.repeat(goal.score)}</p>
                 <div class="habits" style="display: none;"></div>
             `;
             goalsContainer.appendChild(goalElement);
