@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "726031240148",
+    "project_id": "habot-6710d",
+    "storage_bucket": "habot-6710d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726031240148:android:e4b422852cab6639106441",
+        "android_client_info": {
+          "package_name": "com.example.habittracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL_kDTVSjg0eP1eSicLqaxU6TXK1Fx7-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
