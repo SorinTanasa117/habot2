@@ -69,7 +69,7 @@ function renderLogin(auth) {
 function renderApp(db, auth, currentUser) {
     app.innerHTML = `
         <div class="header">
-            <h1>Habit Tracker</h1>
+            <h1>Monkey See</h1>
             <div>
                 <a href="/profile.html" class="button">Profile</a>
                 <button id="logoutButton">Logout</button>

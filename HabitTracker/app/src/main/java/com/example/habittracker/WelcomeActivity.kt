@@ -15,7 +15,7 @@ class WelcomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.message.text = """
-            Welcome to Habit Tracker!
+            Welcome to Monkey See!
 
             Did you know that it takes an average of 66 days to form a new habit?
             But don't worry, we are here to help you on your journey.
