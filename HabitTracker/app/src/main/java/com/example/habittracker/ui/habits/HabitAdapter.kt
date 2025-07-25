@@ -15,6 +15,12 @@ class HabitAdapter(
     private val onIidItClicked: (Habit) -> Unit
 ) : RecyclerView.Adapter<HabitAdapter.HabitViewHolder>() {
 
+    fun updateData(newHabits: List<Habit>) {
+        (habits as MutableList).clear()
+        habits.addAll(newHabits)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_habit, parent, false)
         return HabitViewHolder(view)
